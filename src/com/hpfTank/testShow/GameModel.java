@@ -8,15 +8,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameModel {
+    private static  final  GameModel gameModel=new GameModel();
 
-    public GameModel() {
-
-        int count=Integer.valueOf(PropertyMgr.get("initTankCount").toString());
-
-        for (int i = 0; i < count; i++) {
-            add(new TankInfo(80+i*80,80,Dir.DOWN,this,Group.BAD));
-        }
+    static {
+        gameModel.init();
     }
+
+    private GameModel() {
+
+    }
+    TankInfo mainTank;
+    private void init(){
+        mainTank = new TankInfo(200,200,Dir.DOWN,Group.DOOG);
+        int count=Integer.valueOf(PropertyMgr.get("initTankCount").toString());
+        for (int i = 0; i < count; i++) {
+            new TankInfo(80+i*80,80,Dir.DOWN,Group.BAD);
+        }
+        add(new Wall(150,150,200,50));
+        add(new Wall(550,150,200,50));
+        add(new Wall(300,300,50,200));
+        add(new Wall(550,300,50,200));
+    }
+    public static GameModel getInstence(){
+        return gameModel;
+    }
+
+
+
     ColliderChain collider=new ColliderChain();
 
 //    //子弹
@@ -28,7 +46,7 @@ public class GameModel {
 //    //坦克
 //    public List<TankInfo> tanks=new ArrayList<>();
 
-    TankInfo mainTank = new TankInfo(200,200,Dir.DOWN,this,Group.DOOG);
+
 
     List<GameObject>  objects=new ArrayList<>();
 

@@ -13,6 +13,8 @@ public class ColliderChain  implements Collider{
 
         colliders.add(new TankAndBulletCollider());
         colliders.add(new TankAndTankCollider());
+        colliders.add(new BulletWallCollider());
+        colliders.add(new TankAndWallCollider());
     }
     public void add(Collider c){
         colliders.add(c);
@@ -23,8 +25,8 @@ public class ColliderChain  implements Collider{
 
     public boolean collider(GameObject o1, GameObject o2) {
         for (Collider collider : colliders) {
-            if(collider.collider(o1,o2)){
-                return  false;
+            if(!collider.collider(o1,o2)){
+                return false;
             }
         }
         return true;

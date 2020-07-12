@@ -12,7 +12,7 @@ public class TankFrame  extends Frame {
 
     public static   final int GAME_WIDTH=PropertyMgr.getInt("gameWidth"),GAME_HEIGHT=PropertyMgr.getInt("gameHeight");
 
-    GameModel gameModel=new GameModel();
+    GameModel gameModel=GameModel.getInstence();
 
     public   TankFrame (){
         setSize(GAME_WIDTH,GAME_HEIGHT);

@@ -11,7 +11,7 @@ public class testMain {
 
 
         while (true){
-            Thread.sleep(50);
+            Thread.sleep(500);
             frame.repaint();
         }
 

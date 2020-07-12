@@ -5,7 +5,8 @@ import java.awt.*;
 import java.util.Random;
 
 public class TankInfo extends GameObject {
-    public  int x,y;
+//    public  int x,y;
+    public  int oldX,oldY;
     public Dir dir;
     private static  final  int SPEED =PropertyMgr.getInt("tankSpeed");
 
@@ -22,7 +23,6 @@ public class TankInfo extends GameObject {
 
     private Random random=new Random();
 
-    public GameModel gameModel;
 
     public Rectangle rectangle=new Rectangle();
 
@@ -48,12 +48,11 @@ public class TankInfo extends GameObject {
         this.moving = moving;
     }
 
-    public TankInfo(int x, int y, Dir dir,GameModel gameModel,Group group) {
+    public TankInfo(int x, int y, Dir dir,Group group) {
         super();
         this.x = x;
         this.y = y;
         this.dir = dir;
-        this.gameModel=gameModel;
         this.group=group;
         rectangle.x=this.x;
         rectangle.y=this.y;
@@ -71,6 +70,7 @@ public class TankInfo extends GameObject {
             e.printStackTrace();
         }
 
+        GameModel.getInstence().add(this);
     }
 
     public Rectangle getRectangle() {
@@ -110,7 +110,7 @@ public class TankInfo extends GameObject {
     }
 
     public void paint(Graphics s){
-        if(!living) gameModel.remove(this);
+        if(!living) GameModel.getInstence().remove(this);
         //根据方向显示图片
         switch (dir){
             case LEFT:
@@ -134,6 +134,10 @@ public class TankInfo extends GameObject {
 
     }
     public void move(){
+        oldX=x;
+        oldY = y;
+
+
         if(!moving) return ;
 
         switch (dir){
@@ -196,6 +200,8 @@ public class TankInfo extends GameObject {
     }
 
     public void trunBack(){
+       /* x=oldX;
+        y=oldY;*/
         switch (dir){
             case LEFT:
                 dir=Dir.RIGHT;
@@ -214,4 +220,13 @@ public class TankInfo extends GameObject {
         }
     }
 
+    @Override
+    public int getWidth() {
+        return WIDTH;
+    }
+
+    @Override
+    public int getHIGH() {
+        return HEIGHT;
+    }
 }

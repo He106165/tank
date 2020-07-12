@@ -7,19 +7,14 @@ public class Explode extends GameObject {
 	public static int WIDTH = ResourceMgr.exploads[0].getWidth();
 	public static int HEIGHT = ResourceMgr.exploads[0].getHeight();
 	
-	private int x, y;
+//	private int x, y;
 
-
-	public GameModel gameModel;
-	
-	//private boolean living = true;
-	
 	private int step = 0;
 	
-	public Explode(int x, int y, GameModel gameModel) {
+	public Explode(int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.gameModel=gameModel;
+		GameModel.getInstence().add(this);
 /*
 		new Thread(()->new Audio("audio/explode.wav").play()).start();
 */
@@ -32,11 +27,20 @@ public class Explode extends GameObject {
 		g.drawImage(ResourceMgr.exploads[step++], x, y, null);
 
 		if(step >= ResourceMgr.exploads.length)
-			gameModel.objects.remove(this);
+			GameModel.getInstence().remove(this);
 
 		
 	}
-	
-	
+
+	@Override
+	public int getWidth() {
+		return WIDTH;
+	}
+
+	@Override
+	public int getHIGH() {
+		return HEIGHT;
+	}
+
 
 }

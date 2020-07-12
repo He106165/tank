@@ -8,7 +8,9 @@ public class DefaultFristStrategy2 implements FristStrategy{
 
         Dir[] dirs=Dir.values();
         for (Dir dir : dirs) {
-            new Bullet(bx,by, dir,tankInfo.gameModel,tankInfo.group);
+            //这种是有bug的，加了俩次
+            GameModel.getInstence().add(new Bullet(bx,by, dir,tankInfo.group));
+            //new Bullet(bx,by, dir,tankInfo.group);
 
         }
         //new bullet(bx,by, tankInfo.dir,tankInfo.tankFrame,tankInfo.group);
