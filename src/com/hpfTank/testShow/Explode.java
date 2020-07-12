@@ -1,9 +1,11 @@
 package com.hpfTank.testShow;
 
+import com.hpfTank.AbstractFactory.BaseExpolad;
+
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-public class Explode {
+public class Explode  extends BaseExpolad {
 	public static int WIDTH = ResourceMgr.exploads[0].getWidth();
 	public static int HEIGHT = ResourceMgr.exploads[0].getHeight();
 	

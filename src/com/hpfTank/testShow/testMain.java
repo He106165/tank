@@ -11,7 +11,8 @@ public class testMain {
         int count=Integer.valueOf(PropertyMgr.get("initTankCount").toString());
 
         for (int i = 0; i < count; i++) {
-            frame.tanks.add(new TankInfo(80+i*40,80,Dir.DOWN,frame,Group.BAD));
+            frame.tanks.add(frame.factory.creatTank(80+i*40,80,Dir.DOWN,Group.BAD,frame));
+
         }
 
         while (true){

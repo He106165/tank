@@ -1,14 +1,16 @@
 package com.hpfTank.testShow;
 
+import com.hpfTank.AbstractFactory.BaseTank;
+
 import java.awt.*;
 import java.util.Random;
 
-public class TankInfo {
-    private int x,y;
-    private Dir dir;
+public class TankInfo extends BaseTank {
+    public  int x,y;
+    public Dir dir;
     private static  final  int SPEED =PropertyMgr.getInt("tankSpeed");
 
-    private Group group;
+    public Group group;
 
 
     private boolean  living=true;
@@ -17,11 +19,11 @@ public class TankInfo {
 
     private boolean moving=true;
 
-    private TankFrame tankFrame;
+    public TankFrame tankFrame;
 
     private Random random=new Random();
 
-    private Rectangle rectangle=new Rectangle();
+    public Rectangle rectangle=new Rectangle();
 
 
     public Dir getDir() {
@@ -29,7 +31,9 @@ public class TankInfo {
     }
 
 
+    //FristStrategy fristStrategy = new DefaultFristStrategy();
 
+    FristStrategy fristStrategy;
 
     public void setDir(Dir dir) {
         this.dir = dir;
@@ -54,6 +58,18 @@ public class TankInfo {
         rectangle.y=this.y;
         rectangle.width=WIDTH;
         rectangle.height=HEIGHT;
+        try {
+            if(group==Group.DOOG) {
+                String  goodFS=(String)PropertyMgr.get("goodFS");
+                fristStrategy=(FristStrategy)Class.forName(goodFS).getDeclaredConstructor().newInstance();
+            }else{
+                String badFS=(String)PropertyMgr.get("badFS");
+                fristStrategy=(FristStrategy)Class.forName(badFS).newInstance();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public Rectangle getRectangle() {
@@ -153,9 +169,14 @@ public class TankInfo {
 
     //发射一个子弹
     public void frie(){
-        int bx=this.x+TankInfo.WIDTH/2 -bullet.WIDTH/2;
+        fristStrategy.fire(this);
+
+/*
+        new DefaultFristStrategy().fire(this);
+*/
+        /*int bx=this.x+TankInfo.WIDTH/2 -bullet.WIDTH/2;
         int by=this.y+TankInfo.HEIGHT/2 -bullet.HEIGHT/2;
-        tankFrame.bulletList.add(new bullet(bx,by, this.dir,this.tankFrame,this.group));
+        tankFrame.bulletList.add(new bullet(bx,by, this.dir,this.tankFrame,this.group));*/
     }
 
     public void die(){

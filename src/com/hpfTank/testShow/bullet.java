@@ -1,8 +1,11 @@
 package com.hpfTank.testShow;
 
+import com.hpfTank.AbstractFactory.BaseBullet;
+import com.hpfTank.AbstractFactory.BaseTank;
+
 import java.awt.*;
 
-public class bullet {
+public class bullet  extends BaseBullet {
     private static  final  int SPEED =PropertyMgr.getInt("bulletSpeed");
     public static int WIDTH=ResourceMgr.bulletD.getWidth(),HEIGHT=ResourceMgr.bulletD.getHeight();
     private int x,y;
@@ -51,6 +54,8 @@ public class bullet {
         rectangle.width=WIDTH;
         rectangle.height=HEIGHT;
 
+        tankFrame.bulletList.add(this);
+
     }
 
     public void paint(Graphics s){
@@ -73,6 +78,20 @@ public class bullet {
         }
         move();
     }
+
+    public void rectangle(BaseTank tankInfo) {
+        if(this.group==tankInfo.getGroup()) return;
+/*        Rectangle bullet=new Rectangle(this.x,this.y,WIDTH,HEIGHT);
+        Rectangle tank=new Rectangle(tankInfo.getX(),tankInfo.getY(),tankInfo.WIDTH,tankInfo.HEIGHT);*/
+        if(rectangle.intersects(tankInfo.getRectangle())){
+            tankInfo.die();
+            this.die();
+            int bx=tankInfo.getX()+TankInfo.WIDTH/2 -Explode.WIDTH/2;
+            int by=tankInfo.getY()+TankInfo.HEIGHT/2 -Explode.HEIGHT/2;
+            tankFrame.explodes.add(tankFrame.factory.creatExpolad(bx,by,tankFrame));
+        }
+    }
+
     public void move(){
         switch (dir){
             case LEFT:
@@ -97,20 +116,7 @@ public class bullet {
     }
 
 
-    //判断子弹和坦克相撞
 
-    public void rectangle(TankInfo tankInfo){
-        if(this.group==tankInfo.getGroup()) return;
-/*        Rectangle bullet=new Rectangle(this.x,this.y,WIDTH,HEIGHT);
-        Rectangle tank=new Rectangle(tankInfo.getX(),tankInfo.getY(),tankInfo.WIDTH,tankInfo.HEIGHT);*/
-        if(rectangle.intersects(tankInfo.getRectangle())){
-            tankInfo.die();
-            this.die();
 
-            int bx=this.x+TankInfo.WIDTH/2 -Explode.WIDTH/2;
-            int by=this.y+TankInfo.HEIGHT/2 -Explode.HEIGHT/2;
-            tankFrame.explodes.add(new Explode(bx,by,tankFrame));
-        }
-    }
 
 }

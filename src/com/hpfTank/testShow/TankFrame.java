@@ -1,5 +1,7 @@
 package com.hpfTank.testShow;
 
+import com.hpfTank.AbstractFactory.*;
+
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -10,18 +12,21 @@ import java.util.List;
 
 public class TankFrame  extends Frame {
 
-    static  final int GAME_WIDTH=PropertyMgr.getInt("gameWidth"),GAME_HEIGHT=PropertyMgr.getInt("gameHeight");;
+    public static   final int GAME_WIDTH=PropertyMgr.getInt("gameWidth"),GAME_HEIGHT=PropertyMgr.getInt("gameHeight");
     //子弹
-    List<bullet> bulletList=new ArrayList<bullet>();
+    public List<BaseBullet> bulletList=new ArrayList<BaseBullet>();
 
     //爆炸
-    List<Explode> explodes=new ArrayList<Explode>();
+    public List<BaseExpolad> explodes=new ArrayList<BaseExpolad>();
 
     //坦克
-    List<TankInfo> tanks=new ArrayList<>();
+    public List<BaseTank> tanks=new ArrayList<>();
 
     TankInfo mainTank = new TankInfo(200,200,Dir.DOWN,this,Group.DOOG);
 
+
+    public GameFactory factory=new RectFactory();
+    //public GameFactory factory=new DefaultFactory();
 
     public   TankFrame (){
         setSize(GAME_WIDTH,GAME_HEIGHT);
