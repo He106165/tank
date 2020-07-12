@@ -1,7 +1,5 @@
 package com.hpfTank.testShow;
 
-import com.hpfTank.AbstractFactory.*;
-
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -13,20 +11,8 @@ import java.util.List;
 public class TankFrame  extends Frame {
 
     public static   final int GAME_WIDTH=PropertyMgr.getInt("gameWidth"),GAME_HEIGHT=PropertyMgr.getInt("gameHeight");
-    //子弹
-    public List<BaseBullet> bulletList=new ArrayList<BaseBullet>();
 
-    //爆炸
-    public List<BaseExpolad> explodes=new ArrayList<BaseExpolad>();
-
-    //坦克
-    public List<BaseTank> tanks=new ArrayList<>();
-
-    TankInfo mainTank = new TankInfo(200,200,Dir.DOWN,this,Group.DOOG);
-
-
-    public GameFactory factory=new RectFactory();
-    //public GameFactory factory=new DefaultFactory();
+    GameModel gameModel=new GameModel();
 
     public   TankFrame (){
         setSize(GAME_WIDTH,GAME_HEIGHT);
@@ -63,31 +49,7 @@ public class TankFrame  extends Frame {
 
     @Override
     public void paint(Graphics s){
-        Color color = s.getColor();
-        s.setColor(Color.WHITE);
-        s.drawString("子弹数量"+bulletList.size(),10,60);
-        s.drawString("敌人数量"+tanks.size(),100,60);
-        s.setColor(color);
-        mainTank.paint(s);
-
-        for (int i = 0; i < bulletList.size(); i++) {
-            bulletList.get(i).paint(s);
-        }
-
-        for (int i = 0; i < tanks.size(); i++) {
-            tanks.get(i).paint(s);
-        }
-
-        for (int i = 0; i < explodes.size(); i++) {
-            explodes.get(i).paint(s);
-        }
-
-
-        //判断子弹和坦克相撞
-        for (int i = 0; i <bulletList.size() ; i++){
-            for (int j = 0; j < tanks.size(); j++)
-                bulletList.get(i).rectangle(tanks.get(j));
-        }
+        gameModel.paint(s);
     }
 
     //键盘监听
@@ -141,7 +103,7 @@ public class TankFrame  extends Frame {
                     break;
 
                 case  KeyEvent.VK_CONTROL:
-                    mainTank.frie();
+                    gameModel.getMainTank().frie();
                     break;
                 default:
                     break;
@@ -152,20 +114,20 @@ public class TankFrame  extends Frame {
         public void mainTankDir(){
             //判断是不是移动了
             if(!BL && !BR && !BU &&!BD){
-                mainTank.setMoving(false);
+                gameModel.getMainTank().setMoving(false);
             }else{
-                mainTank.setMoving(true);
+                gameModel.getMainTank().setMoving(true);
                 if(BL==true){
-                    mainTank.setDir(Dir.LEFT);
+                    gameModel.getMainTank().setDir(Dir.LEFT);
                 }
                 if(BR==true){
-                    mainTank.setDir(Dir.RIGHT);
+                    gameModel.getMainTank().setDir(Dir.RIGHT);
                 }
                 if(BU==true) {
-                    mainTank.setDir(Dir.UP);
+                    gameModel.getMainTank().setDir(Dir.UP);
                 }
                 if(BD==true){
-                    mainTank.setDir(Dir.DOWN);
+                    gameModel.getMainTank().setDir(Dir.DOWN);
                 }
             }
         }

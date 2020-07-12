@@ -1,11 +1,10 @@
 package com.hpfTank.testShow;
 
-import com.hpfTank.AbstractFactory.BaseTank;
 
 import java.awt.*;
 import java.util.Random;
 
-public class TankInfo extends BaseTank {
+public class TankInfo extends GameObject {
     public  int x,y;
     public Dir dir;
     private static  final  int SPEED =PropertyMgr.getInt("tankSpeed");
@@ -22,6 +21,8 @@ public class TankInfo extends BaseTank {
     public TankFrame tankFrame;
 
     private Random random=new Random();
+
+    public GameModel gameModel;
 
     public Rectangle rectangle=new Rectangle();
 
@@ -47,12 +48,12 @@ public class TankInfo extends BaseTank {
         this.moving = moving;
     }
 
-    public TankInfo(int x, int y, Dir dir,TankFrame tankFrame,Group group) {
+    public TankInfo(int x, int y, Dir dir,GameModel gameModel,Group group) {
         super();
         this.x = x;
         this.y = y;
         this.dir = dir;
-        this.tankFrame=tankFrame;
+        this.gameModel=gameModel;
         this.group=group;
         rectangle.x=this.x;
         rectangle.y=this.y;
@@ -104,8 +105,12 @@ public class TankInfo extends BaseTank {
         this.group = group;
     }
 
+    public void stop(){
+        this.moving=false;
+    }
+
     public void paint(Graphics s){
-        if(!living) tankFrame.tanks.remove(this);
+        if(!living) gameModel.remove(this);
         //根据方向显示图片
         switch (dir){
             case LEFT:
@@ -188,6 +193,25 @@ public class TankInfo extends BaseTank {
         else if(this.y <30) y=30;
         else if(this.x> tankFrame.GAME_WIDTH-TankInfo.WIDTH-2) x=tankFrame.GAME_WIDTH-TankInfo.WIDTH-2;
         else if(this.y> tankFrame.GAME_HEIGHT-TankInfo.HEIGHT-2) y=tankFrame.GAME_HEIGHT-TankInfo.HEIGHT-2;
+    }
+
+    public void trunBack(){
+        switch (dir){
+            case LEFT:
+                dir=Dir.RIGHT;
+                break;
+            case UP:
+                dir=Dir.DOWN;
+                break;
+            case RIGHT:
+                dir=Dir.LEFT;
+                break;
+            case DOWN:
+                dir=Dir.UP;
+                break;
+            default:
+                break;
+        }
     }
 
 }

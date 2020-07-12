@@ -1,11 +1,8 @@
 package com.hpfTank.testShow;
 
-import com.hpfTank.AbstractFactory.BaseBullet;
-import com.hpfTank.AbstractFactory.BaseTank;
-
 import java.awt.*;
 
-public class bullet  extends BaseBullet {
+public class Bullet extends  GameObject {
     private static  final  int SPEED =PropertyMgr.getInt("bulletSpeed");
     public static int WIDTH=ResourceMgr.bulletD.getWidth(),HEIGHT=ResourceMgr.bulletD.getHeight();
     private int x,y;
@@ -24,8 +21,8 @@ public class bullet  extends BaseBullet {
         this.group = group;
     }
 
-    private  TankFrame tankFrame;
 
+    public GameModel gameModel;
 
     public boolean isLiving() {
         return living;
@@ -43,24 +40,24 @@ public class bullet  extends BaseBullet {
         this.dir = dir;
     }
 
-    public bullet(int x, int y, Dir dir,TankFrame tankFrame,Group group) {
+    public Bullet(int x, int y, Dir dir,GameModel gameModel,Group group) {
         this.x = x;
         this.y = y;
         this.dir = dir;
-        this.tankFrame=tankFrame;
+        this.gameModel=gameModel;
         this.group=group;
         rectangle.x=this.x;
         rectangle.y=this.y;
         rectangle.width=WIDTH;
         rectangle.height=HEIGHT;
 
-        tankFrame.bulletList.add(this);
+        gameModel.objects.add(this);
 
     }
 
     public void paint(Graphics s){
         if(!living){
-            tankFrame.bulletList.remove(this);
+            gameModel.objects.remove(this);
         }
         switch (dir){
             case LEFT:
@@ -79,8 +76,8 @@ public class bullet  extends BaseBullet {
         move();
     }
 
-    public void rectangle(BaseTank tankInfo) {
-        if(this.group==tankInfo.getGroup()) return;
+    public boolean  rectangle(TankInfo tankInfo) {
+        if(this.group==tankInfo.getGroup()) return false;
 /*        Rectangle bullet=new Rectangle(this.x,this.y,WIDTH,HEIGHT);
         Rectangle tank=new Rectangle(tankInfo.getX(),tankInfo.getY(),tankInfo.WIDTH,tankInfo.HEIGHT);*/
         if(rectangle.intersects(tankInfo.getRectangle())){
@@ -88,8 +85,10 @@ public class bullet  extends BaseBullet {
             this.die();
             int bx=tankInfo.getX()+TankInfo.WIDTH/2 -Explode.WIDTH/2;
             int by=tankInfo.getY()+TankInfo.HEIGHT/2 -Explode.HEIGHT/2;
-            tankFrame.explodes.add(tankFrame.factory.creatExpolad(bx,by,tankFrame));
+            gameModel.add(new Explode(bx,by,gameModel));
+            return true;
         }
+        return false;
     }
 
     public void move(){
