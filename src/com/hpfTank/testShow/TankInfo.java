@@ -1,7 +1,13 @@
 package com.hpfTank.testShow;
 
 
+import com.hpfTank.Observer.TankEvent;
+import com.hpfTank.Observer.TankFireHeader;
+import com.hpfTank.Observer.TankObserver;
+
 import java.awt.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class TankInfo extends GameObject {
@@ -228,5 +234,14 @@ public class TankInfo extends GameObject {
     @Override
     public int getHIGH() {
         return HEIGHT;
+    }
+
+    private List<TankObserver> list= Arrays.asList(new TankFireHeader());
+
+    public void headleFrieKey(){
+        TankEvent tankEvent=new TankEvent(this);
+        for (TankObserver o : list) {
+            o.ActionOnFire(tankEvent);
+        }
     }
 }

@@ -103,7 +103,7 @@ public class TankFrame  extends Frame {
                     break;
 
                 case  KeyEvent.VK_CONTROL:
-                    gameModel.getMainTank().frie();
+                    gameModel.getMainTank().headleFrieKey();
                     break;
                 default:
                     break;
